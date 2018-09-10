@@ -19,6 +19,7 @@ RATE = 16000
 CHUNK = 512 
 RECORD_SECONDS = 1
 WAVE_OUTPUT_FILENAME = "file.wav"
+TXT_OUTPUT_FILENAME = "test.txt"
 
 
 
@@ -52,6 +53,9 @@ def run_graph(wav_data, labels, input_layer_name, output_layer_name,
       human_string = labels[node_id]
       score = predictions[node_id]
       print('%s (score = %.5f)' % (human_string, score))
+      f = open("text.txt",'w')
+      f.write('%s' % (human_string))
+      f.close()
       # save to a file ('%s (score = %.5f)' % (human_string, score)
 
     return 0
@@ -129,8 +133,23 @@ if __name__ == '__main__':
     parser.add_argument(
       '--how_many_labels',
       type=int,
-      default=3,
+      default=1,
       help='Number of results to show.')
 
     FLAGS, unparsed = parser.parse_known_args()
     tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
+f = open("text.txt",'w')
+line = f.readline()
+f.close()
+
+pinMode(7,OUTPUT)
+     
+if line == "up":
+    digitalWrite(7,HIGH);
+                
+if line == "down":
+    digitalWrite(7,LOW);
+
+
+
+    
